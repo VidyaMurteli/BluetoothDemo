@@ -1,0 +1,31 @@
+{
+  "advertisements": [
+    {
+      "id": "FAKE-EBUD-0001",
+      "name": "SimBuds Pro",
+      "rssi": -58,
+      "battery": 82,
+      "type": "earbud",
+      "profile": "BLE",
+      "advertisingData": {
+        "serviceUUIDs": ["180A", "FE03"],
+        "manufacturerData": "AABBCCDD",
+        "txPowerLevel": -4
+      }
+    },
+    {
+      "id": "FAKE-EBUD-0002",
+      "name": "WavePods Max",
+      "rssi": -69,
+      "battery": 65,
+      "type": "earbud",
+      "profile": "BLE",
+      "advertisingData": {
+        "serviceUUIDs": ["FEAA"],
+        "manufacturerData": "11223344",
+        "txPowerLevel": -6
+      }
+    }
+  ]
+}
+
