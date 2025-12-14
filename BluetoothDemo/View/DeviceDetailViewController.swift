@@ -7,9 +7,23 @@
 
 import UIKit
 
-class DeviceDetailViewController: UIViewController {
-    
+final class DeviceDetailViewController: UIViewController {
+
+    @IBOutlet weak var lblDeviceDetails: UILabel!
+    var device: BLEAdvertisement!
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Device Details"
+        view.backgroundColor = .systemBackground
+        lblDeviceDetails.text = """
+        RSSI: \(device.rssi)
+        Battery: \(device.battery)%
+        Type: \(device.type)
+        Profile: \(device.profile)
+        
+        About Bluetooth:
+        Bluetooth is a short-range wireless technology.
+        """
     }
 }

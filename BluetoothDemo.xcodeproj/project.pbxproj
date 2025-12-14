@@ -10,9 +10,22 @@
 		5258CA6C2EEEEAE100B0AE30 /* BluetoothDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BluetoothDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		5258CABC2EEF0EFB00B0AE30 /* Exceptions for "BluetoothDemo" folder in "BluetoothDemo" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 5258CA6B2EEEEAE100B0AE30 /* BluetoothDemo */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		5258CA6E2EEEEAE100B0AE30 /* BluetoothDemo */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				5258CABC2EEF0EFB00B0AE30 /* Exceptions for "BluetoothDemo" folder in "BluetoothDemo" target */,
+			);
 			path = BluetoothDemo;
 			sourceTree = "<group>";
 		};
