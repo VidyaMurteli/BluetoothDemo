@@ -14,10 +14,10 @@ final class ScanViewModel {
 
     private var timer: Timer?
     private var currentIndex = 0
-    static var shared = ScanViewModel()
+
     var onUpdate: (() -> Void)?
 
-    private init() {
+    init() {
         loadJSON()
     }
 

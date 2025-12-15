@@ -8,13 +8,17 @@
 import UIKit
 
 final class DeviceDetailViewController: UIViewController {
-
+    
     @IBOutlet weak var lblDeviceDetails: UILabel!
     var device: BLEAdvertisement!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Device Details"
+        setUpUI()
+    }
+    
+    func setUpUI() {
         view.backgroundColor = .systemBackground
         lblDeviceDetails.text = """
         RSSI: \(device.rssi)

@@ -9,10 +9,14 @@ import XCTest
 @testable import BluetoothDemo
 
 final class ScanViewModelTests: XCTestCase {
-    
+
     func testNoDuplicates() {
-        ScanViewModel.shared.startScan()
-        let ids = ScanViewModel.shared.discoveredDevices.map { $0.id }
-        XCTAssertEqual(ids.count, Set(ids).count)
+        let vm = ScanViewModel()
+        vm.startScan()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            let ids = vm.discoveredDevices.map { $0.id }
+            XCTAssertEqual(ids.count, Set(ids).count)
+        }
     }
 }

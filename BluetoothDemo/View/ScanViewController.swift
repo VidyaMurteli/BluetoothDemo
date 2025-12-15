@@ -13,13 +13,15 @@ final class ScanViewController: UIViewController {
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
     @IBOutlet weak var stackView: UIStackView!
-        
+    
+    private let viewModel = ScanViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Bluetooth Scan"
         setupUI()
         
-        ScanViewModel.shared.onUpdate = { [weak self] in
+        viewModel.onUpdate = { [weak self] in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
             }
@@ -28,6 +30,8 @@ final class ScanViewController: UIViewController {
     
     private func setupUI() {
         view.backgroundColor = .systemBackground
+        startButton.accessibilityIdentifier = "Start Scan"
+        stopButton.accessibilityIdentifier = "Stop Scan"
         tableView.dataSource = self
         tableView.delegate = self
         
@@ -43,23 +47,23 @@ final class ScanViewController: UIViewController {
     }
     
     @IBAction func buttonStartScanTapped(_ sender: UIButton) {
-        ScanViewModel.shared.startScan()
+        viewModel.startScan()
     }
     
     @IBAction func buttonStopScanTapped(_ sender: UIButton) {
-        ScanViewModel.shared.stopScan()
+        viewModel.stopScan()
     }
 }
 
 extension ScanViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        ScanViewModel.shared.discoveredDevices.count
+        viewModel.discoveredDevices.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let device = ScanViewModel.shared.discoveredDevices[indexPath.row]
+        let device = viewModel.discoveredDevices[indexPath.row]
         cell.textLabel?.text = device.name
         cell.detailTextLabel?.text = "RSSI: \(device.rssi)"
         cell.imageView?.image = UIImage(systemName: "earbuds")
@@ -67,7 +71,7 @@ extension ScanViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let device = ScanViewModel.shared.discoveredDevices[indexPath.row]
+        let device = viewModel.discoveredDevices[indexPath.row]
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let vc = storyboard.instantiateViewController(withIdentifier: "DeviceDetailViewController") as? DeviceDetailViewController {
             vc.device = device
