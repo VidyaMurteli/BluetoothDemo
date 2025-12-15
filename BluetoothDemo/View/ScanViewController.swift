@@ -13,15 +13,13 @@ final class ScanViewController: UIViewController {
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
     @IBOutlet weak var stackView: UIStackView!
-    
-    private let viewModel = ScanViewModel()
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Bluetooth Scan"
         setupUI()
         
-        viewModel.onUpdate = { [weak self] in
+        ScanViewModel.shared.onUpdate = { [weak self] in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
             }
@@ -45,23 +43,23 @@ final class ScanViewController: UIViewController {
     }
     
     @IBAction func buttonStartScanTapped(_ sender: UIButton) {
-        viewModel.startScan()
+        ScanViewModel.shared.startScan()
     }
     
     @IBAction func buttonStopScanTapped(_ sender: UIButton) {
-        viewModel.stopScan()
+        ScanViewModel.shared.stopScan()
     }
 }
 
 extension ScanViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.discoveredDevices.count
+        ScanViewModel.shared.discoveredDevices.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let device = viewModel.discoveredDevices[indexPath.row]
+        let device = ScanViewModel.shared.discoveredDevices[indexPath.row]
         cell.textLabel?.text = device.name
         cell.detailTextLabel?.text = "RSSI: \(device.rssi)"
         cell.imageView?.image = UIImage(systemName: "earbuds")
@@ -69,7 +67,7 @@ extension ScanViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let device = viewModel.discoveredDevices[indexPath.row]
+        let device = ScanViewModel.shared.discoveredDevices[indexPath.row]
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let vc = storyboard.instantiateViewController(withIdentifier: "DeviceDetailViewController") as? DeviceDetailViewController {
             vc.device = device

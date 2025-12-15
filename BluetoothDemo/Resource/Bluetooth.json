@@ -1,31 +1,56 @@
 {
-  "advertisements": [
-    {
-      "id": "FAKE-EBUD-0001",
-      "name": "SimBuds Pro",
-      "rssi": -58,
-      "battery": 82,
-      "type": "earbud",
-      "profile": "BLE",
-      "advertisingData": {
-        "serviceUUIDs": ["180A", "FE03"],
-        "manufacturerData": "AABBCCDD",
-        "txPowerLevel": -4
-      }
-    },
-    {
-      "id": "FAKE-EBUD-0002",
-      "name": "WavePods Max",
-      "rssi": -69,
-      "battery": 65,
-      "type": "earbud",
-      "profile": "BLE",
-      "advertisingData": {
-        "serviceUUIDs": ["FEAA"],
-        "manufacturerData": "11223344",
-        "txPowerLevel": -6
-      }
-    }
-  ]
+    "advertisements": [
+        {
+            "id": "FAKE-EBUD-0001",
+            "name": "SimBuds Pro",
+            "rssi": -58,
+            "battery": 82,
+            "type": "earbud",
+            "profile": "BLE",
+            "advertisingData": {
+                "serviceUUIDs": ["180A", "FE03"],
+                "manufacturerData": "AABBCCDD",
+                "txPowerLevel": -4
+            }
+        },
+        {
+            "id": "FAKE-EBUD-0001",
+            "name": "WavePods Max",
+            "rssi": -69,
+            "battery": 65,
+            "type": "earbud",
+            "profile": "BLE",
+            "advertisingData": {
+                "serviceUUIDs": ["FEAA"],
+                "manufacturerData": "11223344",
+                "txPowerLevel": -6
+            }
+        },
+        {
+            "id": "FAKE-EBUD-0003",
+            "name": "BassPods Neo",
+            "rssi": -63,
+            "battery": 74,
+            "type": "earbud",
+            "profile": "Classic",
+            "advertisingData": {
+                "serviceUUIDs": [],
+                "manufacturerData": null,
+                "txPowerLevel": null
+            }
+        },
+        {
+            "id": "FAKE-EBUD-0004",
+            "name": "TuneBeats Lite",
+            "rssi": -48,
+            "battery": 91,
+            "type": "earbud",
+            "profile": "BLE",
+            "advertisingData": {
+                "serviceUUIDs": ["180F"],
+                "manufacturerData": "55667788",
+                "txPowerLevel": -3
+            }
+        }
+    ]
 }
-
