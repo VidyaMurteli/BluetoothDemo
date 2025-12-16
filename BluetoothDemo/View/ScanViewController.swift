@@ -8,48 +8,57 @@
 import UIKit
 
 final class ScanViewController: UIViewController {
-    
-    private let tableView = UITableView()
+
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
     @IBOutlet weak var stackView: UIStackView!
-    
-    private let viewModel = ScanViewModel()
-    
+
+    private let tableView = UITableView()
+    private var viewModel: ScanViewModelProtocol!//DIP
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Bluetooth Scan"
+
+        configureViewModel()
         setupUI()
-        
+        bindViewModel()
+    }
+
+    private func configureViewModel() {
+        let provider = LocalBLEDataProvider()
+        viewModel = ScanViewModel(dataProvider: provider)
+    }
+
+    private func bindViewModel() {
         viewModel.onUpdate = { [weak self] in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
             }
         }
     }
-    
+
     private func setupUI() {
         view.backgroundColor = .systemBackground
-        startButton.accessibilityIdentifier = "Start Scan"
-        stopButton.accessibilityIdentifier = "Stop Scan"
+
         tableView.dataSource = self
         tableView.delegate = self
-        
+
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([            
+
+        NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 12),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-    
+
     @IBAction func buttonStartScanTapped(_ sender: UIButton) {
         viewModel.startScan()
     }
-    
+
     @IBAction func buttonStopScanTapped(_ sender: UIButton) {
         viewModel.stopScan()
     }

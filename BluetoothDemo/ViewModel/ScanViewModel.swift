@@ -7,32 +7,54 @@
 
 import Foundation
 
-final class ScanViewModel {
+protocol BLEDataProviding {
+    func loadDevices() -> [BLEAdvertisement]
+}
 
-    private(set) var allDevices: [BLEAdvertisement] = []
-    private(set) var discoveredDevices: [BLEAdvertisement] = []
+final class LocalBLEDataProvider: BLEDataProviding {
+
+    func loadDevices() -> [BLEAdvertisement] {
+        guard let url = Bundle.main.url(forResource: "Bluetooth", withExtension: "json"),
+              let data = try? Data(contentsOf: url),
+              let response = try? JSONDecoder().decode(BLEResponse.self, from: data)
+        else { return [] }
+
+        return response.advertisements
+    }
+}
+
+//open for extension and closed for modification
+protocol ScanViewModelProtocol: AnyObject {
+    var discoveredDevices: [BLEAdvertisement] { get }
+    var onUpdate: (() -> Void)? { get set }
+
+    func startScan()
+    func stopScan()
+}
+
+final class ScanViewModel: ScanViewModelProtocol {
+
+    private let dataProvider: BLEDataProviding
+    private let allDevices: [BLEAdvertisement]
+
+    private(set) var discoveredDevices: [BLEAdvertisement] = [] {
+        didSet { onUpdate?() }
+    }
 
     private var timer: Timer?
     private var currentIndex = 0
 
     var onUpdate: (() -> Void)?
 
-    init() {
-        loadJSON()
-    }
-
-    private func loadJSON() {
-        guard let url = Bundle.main.url(forResource: "Bluetooth", withExtension: "json"),
-              let data = try? Data(contentsOf: url),
-              let response = try? JSONDecoder().decode(BLEResponse.self, from: data)
-        else { return }
-        allDevices = response.advertisements
+    init(dataProvider: BLEDataProviding) {
+        self.dataProvider = dataProvider
+        self.allDevices = dataProvider.loadDevices()
     }
 
     func startScan() {
         stopScan()
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-            self?.revealNextDevice()
+            self?.revealNext()
         }
     }
 
@@ -40,15 +62,15 @@ final class ScanViewModel {
         timer?.invalidate()
         timer = nil
     }
-
-    private func revealNextDevice() {
+    
+    private func revealNext() {
         guard currentIndex < allDevices.count else {
             stopScan()
             return
         }
         let device = allDevices[currentIndex]
         if !discoveredDevices.contains(where: { $0.id == device.id }) {
-            discoveredDevices.append(device)
+            discoveredDevices.append(allDevices[currentIndex])
             onUpdate?()
         }
         currentIndex += 1
