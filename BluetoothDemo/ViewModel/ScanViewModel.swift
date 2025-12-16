@@ -24,6 +24,7 @@ final class LocalBLEDataProvider: BLEDataProviding {
 }
 
 //open for extension and closed for modification
+@MainActor
 protocol ScanViewModelProtocol: AnyObject {
     var discoveredDevices: [BLEAdvertisement] { get }
     var onUpdate: (() -> Void)? { get set }
@@ -32,6 +33,7 @@ protocol ScanViewModelProtocol: AnyObject {
     func stopScan()
 }
 
+@MainActor
 final class ScanViewModel: ScanViewModelProtocol {
 
     private let dataProvider: BLEDataProviding
@@ -54,7 +56,7 @@ final class ScanViewModel: ScanViewModelProtocol {
     func startScan() {
         stopScan()
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-            self?.revealNext()
+            Task { await self?.revealNext() }
         }
     }
 
